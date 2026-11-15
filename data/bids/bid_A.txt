@@ -1,0 +1,22 @@
+BID SUBMISSION DETAILS
+Bidder Name: Alpha Networks Ltd
+Bid Reference: BID-ALPHA-2026-001
+Tender Reference: TDR-2026-CAMPUS-NET-019
+
+1. Commercial Proposal
+Total Quoted Price: 125000 USD
+Payment Terms: Milestone payments net 30 days post acceptance
+Bid Validity: Valid until 2027-08-31
+
+2. Technical Features & Capabilities
+Years of Experience: 12
+Quality & Security Certifications: ISO 9001, ISO 27001
+Technical Engineering Team Size: 25
+Similar Enterprise Network Projects: 8
+Committed Delivery Timeline: 45 days
+
+3. Compliance Documents Submitted
+- Registration Certificate
+- Tax Clearance
+- EMD Receipt
+- Experience Certificate

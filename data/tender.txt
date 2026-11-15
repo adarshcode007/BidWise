@@ -1,0 +1,38 @@
+TENDER SPECIFICATION DOCUMENT
+Tender Reference: TDR-2026-CAMPUS-NET-019
+Project Title: Supply, Installation, Testing, and Commissioning of Campus Network Infrastructure
+
+Clause 1: Scope of Work and General Description
+The University invites sealed bids from eligible enterprise networking contractors for the supply, installation, configuration, testing, and commissioning of high-speed structured cabling, optical fiber backbones, edge switches, core routing appliances, and wireless access points across the university campus. The successful vendor shall ensure 99.99% uptime, end-to-end telemetry, and complete integration with the existing campus directory services.
+
+Clause 2: Eligibility and Submission Guidelines
+Bidders must be recognized IT infrastructure providers with proven track records in deploying large-scale educational or enterprise campus networks. Bids must remain valid for a minimum period of 180 days from the tender closing date of 2026-12-31 (validity required through at least 2027-06-30). Payment terms shall be milestone-based with final settlement within net 30 to 45 days upon satisfactory commissioning.
+
+Clause 3: Submission Timelines and As-of Validity
+All submissions must be submitted digitally prior to the published deadline. All certificates and financial submissions shall be evaluated as of 2026-12-31. Submissions lacking mandatory documentation or with insufficient bid validity will be rejected without further technical evaluation.
+
+Clause 4: Evaluation Criteria and Weights
+The tender evaluation committee shall evaluate all responsive bids based on a multi-criteria weighted scoring framework:
+1. Technical Capability: 40% weight (maximum 40 points)
+2. Commercial and Price Competitiveness: 30% weight (maximum 30 points)
+3. Experience and Track Record: 20% weight (maximum 20 points)
+4. Delivery Timeline and Implementation Speed: 10% weight (maximum 10 points)
+The total evaluation score shall be computed on a 100-point scale. Commercial scoring shall award the maximum allocated commercial marks to the lowest compliant price; all other compliant bids shall receive marks inversely proportional to their quoted price according to the formula: (Lowest Compliant Price / Bid Price) * Max Commercial Marks.
+
+Clause 5: Mandatory Documents and Compliance Requirements
+Bidders must submit the following mandatory legal and financial documents:
+- Registration Certificate (active corporate registration)
+- Tax Clearance (current fiscal year clearance certificate)
+- EMD Receipt (Earnest Money Deposit payment proof or exemption voucher)
+- Experience Certificate (client sign-offs or completion proofs)
+Failure to provide any of the above mandatory documents shall result in immediate disqualification of the bid. Disqualified bids shall not proceed to financial ranking.
+
+Clause 6: Technical Rubric Expectations
+The technical evaluation shall be assessed according to the following rubric standards:
+- Relevant Experience: 10 or more years of enterprise networking experience receives full marks; 7 to 9 years receives 80%; 5 to 6 years receives 60%; below 5 years receives 40%.
+- Certifications: Possession of both ISO 9001 (Quality Management) and ISO 27001 (Information Security) receives full marks; possession of ISO 9001 only receives 60%; no certifications receive 0 marks.
+- Technical Team Size: A dedicated technical engineering team of 20 or more engineers receives full marks; 15 to 19 engineers receives 75%; fewer than 15 receives 50%.
+- Similar Completed Projects: 7 or more campus or enterprise network installations receives full marks; 5 to 6 projects receives 80%; 3 to 4 projects receives 60%; fewer than 3 receives 30%.
+
+Clause 7: Tie-Break Rule and Secondary Criterion
+If the difference between the total weighted scores of the top-ranked bids is within a tie margin of 2.0 points (score difference <= 2.0), the tender award shall be resolved using the secondary criterion of Delivery Timeline: the bidder offering the shorter committed delivery timeline shall be declared the recommended winner. The scorecard and evaluation trace shall explicitly record whether the tie-break rule was invoked.

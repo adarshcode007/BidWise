@@ -1,0 +1,22 @@
+BID SUBMISSION DETAILS
+Bidder Name: Beta Infrastructure Corp
+Bid Reference: BID-BETA-2026-002
+Tender Reference: TDR-2026-CAMPUS-NET-019
+
+1. Commercial Proposal
+Total Quoted Price: 100000 USD
+Payment Terms: Milestone payments net 30 days post acceptance
+Bid Validity: Valid until 2027-07-31
+
+2. Technical Features & Capabilities
+Years of Experience: 6
+Quality & Security Certifications: ISO 9001
+Technical Engineering Team Size: 15
+Similar Enterprise Network Projects: 4
+Committed Delivery Timeline: 60 days
+
+3. Compliance Documents Submitted
+- Registration Certificate
+- Tax Clearance
+- EMD Receipt
+- Experience Certificate

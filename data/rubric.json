@@ -1,0 +1,56 @@
+{
+  "technical_rubric": {
+    "certifications": {
+      "max_marks": 15,
+      "rules": [
+        {"requirement": ["ISO 9001", "ISO 27001"], "score": 15},
+        {"requirement": ["ISO 9001"], "score": 9},
+        {"requirement": [], "score": 0}
+      ]
+    },
+    "team_size": {
+      "max_marks": 10,
+      "rules": [
+        {"min_team": 20, "score": 10},
+        {"min_team": 15, "score": 7.5},
+        {"min_team": 0, "score": 5.0}
+      ]
+    },
+    "similar_projects": {
+      "max_marks": 15,
+      "rules": [
+        {"min_projects": 7, "score": 15},
+        {"min_projects": 5, "score": 12},
+        {"min_projects": 3, "score": 9},
+        {"min_projects": 0, "score": 4.5}
+      ]
+    }
+  },
+  "experience_rubric": {
+    "years_of_experience": {
+      "max_marks": 20,
+      "rules": [
+        {"min_years": 10, "score": 20},
+        {"min_years": 7, "score": 16},
+        {"min_years": 5, "score": 12},
+        {"min_years": 0, "score": 8}
+      ]
+    }
+  },
+  "delivery_rubric": {
+    "delivery_days": {
+      "max_marks": 10,
+      "rules": [
+        {"max_days": 25, "score": 10.0},
+        {"max_days": 35, "score": 8.5},
+        {"max_days": 50, "score": 7.0},
+        {"max_days": 70, "score": 5.0},
+        {"max_days": 999, "score": 2.0}
+      ]
+    }
+  },
+  "commercial_rubric": {
+    "max_marks": 30,
+    "formula": "(lowest_compliant_price / bid_price) * max_marks"
+  }
+}
