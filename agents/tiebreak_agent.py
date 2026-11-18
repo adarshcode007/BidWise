@@ -26,8 +26,9 @@ class TieBreakAgent:
         self,
         scorecard: Scorecard,
         margin: float = 2.0,
+        secondary_criterion: str = "delivery_days",
     ) -> Dict[str, Any]:
-        """Checks for score ties and resolves them by delivery timeline."""
+        """Checks for score ties and resolves them by secondary criterion (e.g. delivery timeline)."""
         run_id = scorecard.run_id
 
         # Collect current ranked compliant bids
@@ -39,6 +40,9 @@ class TieBreakAgent:
                     "total": b_data.get("total", 0.0),
                     "rank": b_data.get("rank"),
                     "delivery_days": b_data.get("delivery_days", 999),
+                    "price": b_data.get("price", 999999),
+                    "technical": b_data.get("scores", {}).get("technical", 0.0),
+                    "experience": b_data.get("scores", {}).get("experience", 0.0),
                     "vendor_name": b_data.get("vendor_name", bid_id),
                 })
 
@@ -58,19 +62,21 @@ class TieBreakAgent:
             second = eligible_bids[1]
             diff = abs(first["total"] - second["total"])
 
-            # Tool 2: Apply secondary criterion (shorter delivery time)
+            # Tool 2: Apply secondary criterion
             resolved = self.ranking_tools.apply_secondary_criterion(
                 bids_data=eligible_bids,
-                secondary_criterion="delivery_days",
+                secondary_criterion=secondary_criterion,
             )
             winner_id = resolved[0]["bid_id"]
 
-            winner_days = resolved[0]["delivery_days"]
-            runner_up_days = resolved[1]["delivery_days"]
+            crit_name = secondary_criterion.replace("_", " ").title()
+            val_winner = resolved[0].get(secondary_criterion, "N/A")
+            val_runner = resolved[1].get(secondary_criterion, "N/A")
+
             detail = (
                 f"Score margin {diff:.2f} <= {margin:.1f} pts detected between {first['bid_id']} and {second['bid_id']}. "
-                f"Secondary criterion applied: Delivery Timeline. "
-                f"{winner_id} selected as winner with shorter delivery of {winner_days} days (vs {runner_up_days} days)."
+                f"Secondary criterion applied: {crit_name}. "
+                f"{winner_id} selected as winner ({val_winner} vs {val_runner})."
             )
 
             # Update rankings in scorecard

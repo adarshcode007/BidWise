@@ -36,6 +36,7 @@ class AwardManager:
             bid_id for bid_id, data in scorecard.bids.items() if data.get("disqualified", False)
         ]
 
+        ref_max = {"technical": 40.0, "experience": 20.0, "delivery": 10.0}
         totals: Dict[str, float] = {}
         for bid_id, data in scorecard.bids.items():
             if bid_id in disqualified_bids:
@@ -45,6 +46,14 @@ class AwardManager:
             # Tool 1: Apply weights
             total = self.ranking_tools.apply_weights(scores=scores, weights=weights)
             totals[bid_id] = total
+
+            # If custom weights are active, adjust stored subscores to reflect the custom breakdown
+            if any(weights.get(k) != def_val for k, def_val in [("technical", 40.0), ("commercial", 30.0), ("experience", 20.0), ("delivery", 10.0)]):
+                scaled = dict(scores)
+                for crit, wt in weights.items():
+                    if crit in ref_max and ref_max[crit] > 0:
+                        scaled[crit] = round((scores.get(crit, 0.0) / ref_max[crit]) * wt, 2)
+                data["scores"] = scaled
 
         # Tool 2: Rank eligible bids
         ranked = self.ranking_tools.rank_bids(totals=totals, disqualified_bids=disqualified_bids)

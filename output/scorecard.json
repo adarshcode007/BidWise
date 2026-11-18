@@ -1,11 +1,11 @@
 {
   "tender_id": "TDR-2026-CAMPUS-NET-019",
-  "run_id": "20261115_132620",
+  "run_id": "20261118_082100",
   "criteria": {
     "tender_id": "TDR-2026-CAMPUS-NET-019",
     "weights": {
-      "technical": 40.0,
-      "commercial": 30.0,
+      "technical": 50.0,
+      "commercial": 20.0,
       "experience": 20.0,
       "delivery": 10.0
     },
@@ -16,9 +16,9 @@
       "Experience Certificate"
     ],
     "cited_clauses": [
-      "Clause 5",
       "Clause 4",
-      "Clause 3"
+      "Clause 3",
+      "Clause 5"
     ],
     "weight_normalized": false,
     "normalization_warning": null
@@ -28,10 +28,10 @@
       "bid_id": "bid_A",
       "vendor_name": "bid_A",
       "scores": {
-        "technical": 40.0,
+        "technical": 50.0,
         "experience": 20.0,
         "delivery": 7.0,
-        "commercial": 24.0
+        "commercial": 15.2
       },
       "compliance": {
         "compliant": true,
@@ -39,7 +39,7 @@
       },
       "disqualified": false,
       "disqualification_reason": null,
-      "total": 91.0,
+      "total": 92.2,
       "rank": 2,
       "delivery_days": 45,
       "price": 125000.0,
@@ -58,14 +58,14 @@
         "payment_terms_ok": true
       }
     },
-    "bid_B": {
-      "bid_id": "bid_B",
-      "vendor_name": "bid_B",
+    "bid_C": {
+      "bid_id": "bid_C",
+      "vendor_name": "bid_C",
       "scores": {
-        "technical": 25.5,
-        "experience": 12.0,
-        "delivery": 5.0,
-        "commercial": 30.0
+        "technical": 46.25,
+        "experience": 20.0,
+        "delivery": 10.0,
+        "commercial": 20.0
       },
       "compliance": {
         "compliant": true,
@@ -73,45 +73,10 @@
       },
       "disqualified": false,
       "disqualification_reason": null,
-      "total": 72.5,
-      "rank": 3,
-      "delivery_days": 60,
-      "price": 100000.0,
-      "features": {
-        "years_of_experience": 6,
-        "certifications": [
-          "ISO 9001"
-        ],
-        "team_size": 15,
-        "similar_projects": 4,
-        "delivery_days": 60,
-        "quoted_price": 100000.0,
-        "payment_terms": "Milestone payments net 30 days post acceptance",
-        "vendor_name": "Beta Infrastructure Corp",
-        "payment_terms_ok": true
-      }
-    },
-    "bid_C": {
-      "bid_id": "bid_C",
-      "vendor_name": "bid_C",
-      "scores": {
-        "technical": 37.0,
-        "experience": 20.0,
-        "delivery": 8.5,
-        "commercial": 30.0
-      },
-      "compliance": {
-        "compliant": false,
-        "reasons": [
-          "Missing mandatory document: 'EMD Receipt'"
-        ]
-      },
-      "disqualified": true,
-      "disqualification_reason": "Disqualified: Missing mandatory documents: EMD Receipt",
-      "total": 0.0,
-      "rank": null,
-      "delivery_days": 30,
-      "price": 110000.0,
+      "total": 96.25,
+      "rank": 1,
+      "delivery_days": 25,
+      "price": 95000.0,
       "features": {
         "years_of_experience": 10,
         "certifications": [
@@ -120,207 +85,119 @@
         ],
         "team_size": 22,
         "similar_projects": 6,
-        "delivery_days": 30,
-        "quoted_price": 110000.0,
+        "delivery_days": 25,
+        "quoted_price": 95000.0,
         "payment_terms": "Milestone payments net 30 days post acceptance",
-        "vendor_name": "Gamma Systems Pvt Ltd",
-        "payment_terms_ok": true
-      }
-    },
-    "bid_D": {
-      "bid_id": "bid_D",
-      "vendor_name": "bid_D",
-      "scores": {
-        "technical": 40.0,
-        "experience": 16.0,
-        "delivery": 10.0,
-        "commercial": 26.087
-      },
-      "compliance": {
-        "compliant": true,
-        "reasons": []
-      },
-      "disqualified": false,
-      "disqualification_reason": null,
-      "total": 92.087,
-      "rank": 1,
-      "delivery_days": 20,
-      "price": 115000.0,
-      "features": {
-        "years_of_experience": 8,
-        "certifications": [
-          "ISO 9001",
-          "ISO 27001"
-        ],
-        "team_size": 20,
-        "similar_projects": 7,
-        "delivery_days": 20,
-        "quoted_price": 115000.0,
-        "payment_terms": "Milestone payments net 30 days post acceptance",
-        "vendor_name": "Delta Communications Inc",
+        "vendor_name": "Gamma Systems Compliant",
         "payment_terms_ok": true
       }
     }
   },
   "events": [
     {
-      "timestamp": "2026-11-15T13:26:20.283046+00:00",
+      "timestamp": "2026-11-18T08:21:00.778469+00:00",
       "agent": "Orchestrator",
       "action": "pipeline_start",
-      "detail": "Initiated run 20261115_132620 for tender TDR-2026-CAMPUS-NET-019"
+      "detail": "Initiated run 20261118_082100 for tender TDR-2026-CAMPUS-NET-019"
     },
     {
-      "timestamp": "2026-11-15T13:26:20.285683+00:00",
+      "timestamp": "2026-11-18T08:21:00.781287+00:00",
       "agent": "CriteriaAgent",
       "action": "update_criteria",
       "detail": "Registered 6 criteria"
     },
     {
-      "timestamp": "2026-11-15T13:26:20.287017+00:00",
+      "timestamp": "2026-11-18T08:21:00.781814+00:00",
+      "agent": "CriteriaAgent",
+      "action": "custom_weights_applied",
+      "detail": "Custom criteria weights applied: {'technical': 50.0, 'commercial': 20.0, 'experience': 20.0, 'delivery': 10.0}"
+    },
+    {
+      "timestamp": "2026-11-18T08:21:00.782888+00:00",
       "agent": "ComplianceAgent",
       "action": "update_compliance_slice",
       "detail": "Bid bid_A evaluated: COMPLIANT (OK)"
     },
     {
-      "timestamp": "2026-11-15T13:26:20.287867+00:00",
+      "timestamp": "2026-11-18T08:21:00.784443+00:00",
       "agent": "TechnicalScorer",
       "action": "update_technical_slice",
       "detail": "Bid bid_A: Technical=40.00, Experience=20.00"
     },
     {
-      "timestamp": "2026-11-15T13:26:20.288124+00:00",
+      "timestamp": "2026-11-18T08:21:00.784443+00:00",
       "agent": "TechnicalScorer",
       "action": "update_delivery_slice",
       "detail": "Bid bid_A: DeliveryDays=45, DeliveryScore=7.00"
     },
     {
-      "timestamp": "2026-11-15T13:26:20.288509+00:00",
+      "timestamp": "2026-11-18T08:21:00.785442+00:00",
       "agent": "CommercialScorer",
       "action": "update_commercial_slice",
-      "detail": "Bid bid_A: Price=125000.00, CommercialScore=30.00"
+      "detail": "Bid bid_A: Price=125000.00, CommercialScore=20.00"
     },
     {
-      "timestamp": "2026-11-15T13:26:20.288969+00:00",
+      "timestamp": "2026-11-18T08:21:00.785442+00:00",
       "agent": "ComplianceAgent",
       "action": "update_compliance_slice",
-      "detail": "Bid bid_B evaluated: COMPLIANT (OK)"
+      "detail": "Bid bid_C evaluated: COMPLIANT (OK)"
     },
     {
-      "timestamp": "2026-11-15T13:26:20.289525+00:00",
-      "agent": "TechnicalScorer",
-      "action": "update_technical_slice",
-      "detail": "Bid bid_B: Technical=25.50, Experience=12.00"
-    },
-    {
-      "timestamp": "2026-11-15T13:26:20.289714+00:00",
-      "agent": "TechnicalScorer",
-      "action": "update_delivery_slice",
-      "detail": "Bid bid_B: DeliveryDays=60, DeliveryScore=5.00"
-    },
-    {
-      "timestamp": "2026-11-15T13:26:20.290052+00:00",
-      "agent": "CommercialScorer",
-      "action": "update_commercial_slice",
-      "detail": "Bid bid_B: Price=100000.00, CommercialScore=30.00"
-    },
-    {
-      "timestamp": "2026-11-15T13:26:20.290480+00:00",
-      "agent": "ComplianceAgent",
-      "action": "update_compliance_slice",
-      "detail": "Bid bid_C evaluated: DISQUALIFIED (Missing mandatory document: 'EMD Receipt')"
-    },
-    {
-      "timestamp": "2026-11-15T13:26:20.290929+00:00",
+      "timestamp": "2026-11-18T08:21:00.786442+00:00",
       "agent": "TechnicalScorer",
       "action": "update_technical_slice",
       "detail": "Bid bid_C: Technical=37.00, Experience=20.00"
     },
     {
-      "timestamp": "2026-11-15T13:26:20.291050+00:00",
+      "timestamp": "2026-11-18T08:21:00.787443+00:00",
       "agent": "TechnicalScorer",
       "action": "update_delivery_slice",
-      "detail": "Bid bid_C: DeliveryDays=30, DeliveryScore=8.50"
+      "detail": "Bid bid_C: DeliveryDays=25, DeliveryScore=10.00"
     },
     {
-      "timestamp": "2026-11-15T13:26:20.291294+00:00",
+      "timestamp": "2026-11-18T08:21:00.787443+00:00",
       "agent": "CommercialScorer",
       "action": "update_commercial_slice",
-      "detail": "Bid bid_C: Price=110000.00, CommercialScore=30.00"
+      "detail": "Bid bid_C: Price=95000.00, CommercialScore=20.00"
     },
     {
-      "timestamp": "2026-11-15T13:26:20.291658+00:00",
-      "agent": "ComplianceAgent",
-      "action": "update_compliance_slice",
-      "detail": "Bid bid_D evaluated: COMPLIANT (OK)"
-    },
-    {
-      "timestamp": "2026-11-15T13:26:20.292202+00:00",
-      "agent": "TechnicalScorer",
-      "action": "update_technical_slice",
-      "detail": "Bid bid_D: Technical=40.00, Experience=16.00"
-    },
-    {
-      "timestamp": "2026-11-15T13:26:20.292325+00:00",
-      "agent": "TechnicalScorer",
-      "action": "update_delivery_slice",
-      "detail": "Bid bid_D: DeliveryDays=20, DeliveryScore=10.00"
-    },
-    {
-      "timestamp": "2026-11-15T13:26:20.292585+00:00",
+      "timestamp": "2026-11-18T08:21:00.788445+00:00",
       "agent": "CommercialScorer",
       "action": "update_commercial_slice",
-      "detail": "Bid bid_D: Price=115000.00, CommercialScore=30.00"
+      "detail": "Bid bid_A: Price=125000.00, CommercialScore=15.20"
     },
     {
-      "timestamp": "2026-11-15T13:26:20.292968+00:00",
+      "timestamp": "2026-11-18T08:21:00.788445+00:00",
       "agent": "CommercialScorer",
       "action": "update_commercial_slice",
-      "detail": "Bid bid_A: Price=125000.00, CommercialScore=24.00"
+      "detail": "Bid bid_C: Price=95000.00, CommercialScore=20.00"
     },
     {
-      "timestamp": "2026-11-15T13:26:20.293152+00:00",
-      "agent": "CommercialScorer",
-      "action": "update_commercial_slice",
-      "detail": "Bid bid_B: Price=100000.00, CommercialScore=30.00"
-    },
-    {
-      "timestamp": "2026-11-15T13:26:20.293283+00:00",
-      "agent": "CommercialScorer",
-      "action": "update_commercial_slice",
-      "detail": "Bid bid_D: Price=115000.00, CommercialScore=26.09"
-    },
-    {
-      "timestamp": "2026-11-15T13:26:20.293567+00:00",
+      "timestamp": "2026-11-18T08:21:00.789444+00:00",
       "agent": "AwardManager",
       "action": "update_totals_and_ranks",
-      "detail": "Rankings assigned: Rank 1: bid_D (92.09), Rank 2: bid_A (91.00), Rank 3: bid_B (72.50)"
+      "detail": "Rankings assigned: Rank 1: bid_C (96.25), Rank 2: bid_A (92.20)"
     },
     {
-      "timestamp": "2026-11-15T13:26:20.293891+00:00",
-      "agent": "TieBreakAgent",
-      "action": "update_totals_and_ranks",
-      "detail": "Rankings assigned: Rank 1: bid_D (92.09), Rank 2: bid_A (91.00), Rank 3: bid_B (72.50)"
-    },
-    {
-      "timestamp": "2026-11-15T13:26:20.294079+00:00",
+      "timestamp": "2026-11-18T08:21:00.789444+00:00",
       "agent": "TieBreakAgent",
       "action": "tie_break_evaluation",
-      "detail": "Tie-break applied=True. Resolved winner=bid_D. Detail: Score margin 1.09 <= 2.0 pts detected between bid_D and bid_A. Secondary criterion applied: Delivery Timeline. bid_D selected as winner with shorter delivery of 20 days (vs 45 days)."
+      "detail": "Tie-break applied=False. Resolved winner=bid_C. Detail: No tie detected within margin threshold."
     },
     {
-      "timestamp": "2026-11-15T13:26:20.294546+00:00",
+      "timestamp": "2026-11-18T08:21:00.790443+00:00",
       "agent": "AwardManager",
       "action": "final_award",
-      "detail": "Declared Winner: bid_D"
+      "detail": "Declared Winner: bid_C"
     },
     {
-      "timestamp": "2026-11-15T13:26:20.294947+00:00",
+      "timestamp": "2026-11-18T08:21:00.790443+00:00",
       "agent": "Orchestrator",
       "action": "pipeline_complete",
-      "detail": "Winner selected: bid_D"
+      "detail": "Winner selected: bid_C"
     }
   ],
-  "winner": "bid_D",
-  "justification": "Award Recommendation: Vendor 'bid_D' (bid_D) is recommended for the award with an overall weighted score of 92.09 / 100.00.\nEvaluation Breakdown (Score achieved vs Weight):\n- Technical Capability: 40.00 pts (Weight: 40.0%)\n- Commercial & Price Competitiveness: 26.09 pts (Weight: 30.0%, Quoted: $115,000.00)\n- Experience & Track Record: 16.00 pts (Weight: 20.0%)\n- Delivery Timeline: 10.00 pts (Weight: 10.0%, Timeline: 20 days)\nJustification Summary: The vendor successfully fulfilled all mandatory compliance requirements. Its strong technical capabilities, verified certifications, and balanced pricing yielded the highest overall score. A margin tie-break was triggered (score difference <= 2.0 points); the secondary criterion was applied, and bid_D was awarded the contract due to its committed delivery timeline of 20 days.",
-  "tie_break_applied": true
+  "winner": "bid_C",
+  "justification": "Award Recommendation: Vendor 'bid_C' (bid_C) is recommended for the award with an overall weighted score of 96.25 / 100.00.\nEvaluation Breakdown (Score achieved vs Weight):\n- Technical Capability: 46.25 pts (Weight: 50.0%)\n- Commercial & Price Competitiveness: 20.00 pts (Weight: 20.0%, Quoted: $95,000.00)\n- Experience & Track Record: 20.00 pts (Weight: 20.0%)\n- Delivery Timeline: 10.00 pts (Weight: 10.0%, Timeline: 25 days)\nJustification Summary: The vendor successfully fulfilled all mandatory compliance requirements. Its strong technical capabilities, verified certifications, and balanced pricing yielded the highest overall score.",
+  "tie_break_applied": false
 }

@@ -60,6 +60,21 @@ class Retriever:
         self.vectorizer = TfidfVectorizer(stop_words="english")
         self.tfidf_matrix = self.vectorizer.fit_transform(corpus_texts)
 
+    def index_text(self, text: str) -> None:
+        """Indexes raw text directly into TF-IDF representation without requiring a file."""
+        self.clauses = self._split_into_clauses(text)
+        if not self.clauses:
+            self.clauses = [{
+                "clause_id": "Clause 1",
+                "clause_num": 1,
+                "header": "Clause 1: Custom Tender Specification",
+                "body": text,
+                "full_text": f"Clause 1: Custom Tender Specification\n{text}",
+            }]
+        corpus_texts = [c["full_text"] for c in self.clauses]
+        self.vectorizer = TfidfVectorizer(stop_words="english")
+        self.tfidf_matrix = self.vectorizer.fit_transform(corpus_texts)
+
     def retrieve(self, query: str, top_k: int = 2) -> List[Dict[str, Any]]:
         """Retrieves top-k most relevant clauses for a given query."""
         if not self.clauses or self.vectorizer is None or self.tfidf_matrix is None:

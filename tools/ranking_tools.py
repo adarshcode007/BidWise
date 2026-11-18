@@ -68,21 +68,22 @@ class RankingTools:
     ) -> float:
         """Calculates total weighted score.
 
-        If scores are already in points matching criteria max points, sums them.
-        If scores are on a 100-point scale, applies weights as percentages (w / 100).
+        If custom weights are supplied, scales rubric subscores proportionally to their new maximum weight.
+        If scores are passed as 0-100 scales, multiplies by (weight / 100).
         """
-        # In our rubric:
-        # Technical max 40, Commercial max 30, Experience max 20, Delivery max 10.
-        # When subscores are already raw points matching criteria weights, total is direct sum.
-        # If passed as 0-100 scales, multiplies by (w / 100).
+        ref_max = {"technical": 40.0, "experience": 20.0, "delivery": 10.0}
         total = 0.0
-        # Check if scores are out of 100 or already weighted
+
+        # Check if scores are out of 100
         is_percentage_scale = any(scores.get(k, 0.0) > weights.get(k, 100.0) for k in scores)
 
         for crit, weight in weights.items():
             raw_score = scores.get(crit, 0.0)
             if is_percentage_scale:
                 total += raw_score * (weight / 100.0)
+            elif crit in ref_max and ref_max[crit] > 0:
+                scaled_score = (raw_score / ref_max[crit]) * weight
+                total += scaled_score
             else:
                 total += raw_score
 
@@ -135,7 +136,7 @@ class RankingTools:
         return score_diff <= margin
 
     @kernel_function(
-        description="Apply secondary criterion (delivery timeline) to resolve tie and re-rank.",
+        description="Apply secondary criterion (delivery timeline or custom criterion) to resolve tie and re-rank.",
         name="apply_secondary_criterion",
     )
     def apply_secondary_criterion(
@@ -143,7 +144,7 @@ class RankingTools:
         bids_data: List[Dict[str, Any]],
         secondary_criterion: str = "delivery_days",
     ) -> List[Dict[str, Any]]:
-        """Resolves ties between top candidates using secondary criterion (shorter delivery wins)."""
+        """Resolves ties between top candidates using secondary criterion (e.g. delivery_days, price, technical)."""
         if len(bids_data) < 2:
             return bids_data
 
@@ -153,12 +154,12 @@ class RankingTools:
         first = resolved[0]
         second = resolved[1]
 
-        # For delivery_days, lower is better (shorter delivery wins)
-        first_val = first.get(secondary_criterion, 999)
-        second_val = second.get(secondary_criterion, 999)
+        lower_is_better = secondary_criterion in ["delivery_days", "price", "quoted_price"]
+        first_val = first.get(secondary_criterion, 999999 if lower_is_better else 0)
+        second_val = second.get(secondary_criterion, 999999 if lower_is_better else 0)
 
-        if second_val < first_val:
-            # Swap positions of first and second
+        should_swap = (second_val < first_val) if lower_is_better else (second_val > first_val)
+        if should_swap:
             resolved[0] = second
             resolved[1] = first
 

@@ -117,3 +117,32 @@ def test_scenario_4_append_only_log_guarantee(tmp_path: Path):
     size_after_run2 = test_log_file.stat().st_size
     # Size must strictly increase (never truncate)
     assert size_after_run2 > size_after_run1
+
+
+def test_custom_parameters_override():
+    """Scenario 5: User overrides default weights, tie margin, and custom bids."""
+    custom_wts = {"technical": 50.0, "commercial": 20.0, "experience": 20.0, "delivery": 10.0}
+    # Provide custom bid properties making Bid C compliant
+    custom_bid_c = {
+        "vendor_name": "Gamma Systems Compliant",
+        "price": 95000,
+        "delivery_days": 25,
+        "years_of_experience": 10,
+        "team_size": 22,
+        "similar_projects": 6,
+        "certifications": ["ISO 9001", "ISO 27001"],
+        "submitted_docs": ["Registration Certificate", "Tax Clearance", "EMD Receipt", "Experience Certificate"],
+    }
+    scorecard = asyncio.run(
+        run_tender_evaluation(
+            selected_bids=["bid_A", "bid_C"],
+            custom_weights=custom_wts,
+            custom_bids={"bid_C": custom_bid_c},
+            print_trace=False,
+        )
+    )
+    # Bid C is now compliant
+    assert scorecard.bids["bid_C"]["disqualified"] is False
+    assert scorecard.criteria["weights"]["technical"] == 50.0
+    assert scorecard.criteria["weights"]["commercial"] == 20.0
+    assert scorecard.winner in ["bid_A", "bid_C"]

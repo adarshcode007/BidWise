@@ -72,6 +72,46 @@ def build_semantic_kernel(use_llm: bool = USE_LLM) -> Any:
     return kernel
 
 
+def format_bid_from_properties(bid_id: str, props: Dict[str, Any]) -> str:
+    """Constructs standard tender bid text from user-specified property overrides."""
+    vendor_name = props.get("vendor_name", bid_id)
+    price = props.get("price", 100000)
+    payment_terms = props.get("payment_terms", "Milestone payments net 30 days post acceptance")
+    validity_date = props.get("validity_date", "2027-08-31")
+    exp_years = props.get("years_of_experience", props.get("experience_years", 5))
+    certs = props.get("certifications", ["ISO 9001"])
+    if isinstance(certs, list):
+        certs_str = ", ".join(certs)
+    else:
+        certs_str = str(certs)
+    team_size = props.get("team_size", 15)
+    similar_projects = props.get("similar_projects", 4)
+    delivery_days = props.get("delivery_days", 30)
+    submitted_docs = props.get("submitted_docs", props.get("documents", []))
+    docs_lines = "\n".join(f"- {d}" for d in submitted_docs)
+
+    return f"""BID SUBMISSION DETAILS
+Bidder Name: {vendor_name}
+Bid Reference: BID-{bid_id.upper()}-CUSTOM
+Tender Reference: TDR-2026-CAMPUS-NET-019
+
+1. Commercial Proposal
+Total Quoted Price: {price} USD
+Payment Terms: {payment_terms}
+Bid Validity: Valid until {validity_date}
+
+2. Technical Features & Capabilities
+Years of Experience: {exp_years}
+Quality & Security Certifications: {certs_str}
+Technical Engineering Team Size: {team_size}
+Similar Enterprise Network Projects: {similar_projects}
+Committed Delivery Timeline: {delivery_days} days
+
+3. Compliance Documents Submitted
+{docs_lines}
+"""
+
+
 class TenderOrchestrator:
     """Coordinates multi-agent fan-out and fan-in procurement evaluation."""
 
@@ -82,10 +122,20 @@ class TenderOrchestrator:
         tie_margin: float = TIE_MARGIN,
         kernel: Any = None,
         use_semantic_kernel: bool = False,
+        custom_weights: Optional[Dict[str, float]] = None,
+        mandatory_documents: Optional[List[str]] = None,
+        secondary_criterion: str = "delivery_days",
+        custom_tender_text: Optional[str] = None,
+        custom_bids: Optional[Dict[str, Any]] = None,
     ):
         self.tender_path = Path(tender_path) if tender_path else TENDER_PATH
         self.bids_dir = Path(bids_dir) if bids_dir else BIDS_DIR
-        self.tie_margin = tie_margin
+        self.tie_margin = tie_margin if tie_margin is not None else TIE_MARGIN
+        self.custom_weights = custom_weights
+        self.mandatory_documents = mandatory_documents
+        self.secondary_criterion = secondary_criterion or "delivery_days"
+        self.custom_tender_text = custom_tender_text
+        self.custom_bids = custom_bids
 
         if kernel is not None:
             self.kernel = kernel
@@ -96,6 +146,9 @@ class TenderOrchestrator:
 
         # Initialize retriever and agents
         self.retriever = Retriever(corpus_path=self.tender_path)
+        if self.custom_tender_text:
+            self.retriever.index_text(self.custom_tender_text)
+
         self.criteria_agent = CriteriaAgent(retriever=self.retriever, kernel=self.kernel)
         self.compliance_agent = ComplianceAgent(kernel=self.kernel)
         self.technical_scorer = TechnicalScorer(kernel=self.kernel)
@@ -104,17 +157,25 @@ class TenderOrchestrator:
         self.tiebreak_agent = TieBreakAgent(kernel=self.kernel)
 
     def load_bids(self, selected_bids: Optional[List[str]] = None) -> Dict[str, str]:
-        """Loads bid files from disk."""
+        """Loads bid files from disk, overlaid with any user custom bids."""
         bids_data: Dict[str, str] = {}
-        if not self.bids_dir.exists():
-            return bids_data
+        if self.bids_dir.exists():
+            bid_files = sorted(self.bids_dir.glob("*.txt"))
+            for bf in bid_files:
+                bid_id = bf.stem  # e.g. "bid_A"
+                if selected_bids is None or bid_id in selected_bids:
+                    with open(bf, "r", encoding="utf-8") as f:
+                        bids_data[bid_id] = f.read()
 
-        bid_files = sorted(self.bids_dir.glob("*.txt"))
-        for bf in bid_files:
-            bid_id = bf.stem  # e.g. "bid_A"
-            if selected_bids is None or bid_id in selected_bids:
-                with open(bf, "r", encoding="utf-8") as f:
-                    bids_data[bid_id] = f.read()
+        # Apply any custom bids or user overrides
+        if self.custom_bids:
+            for bid_id, bid_val in self.custom_bids.items():
+                if selected_bids is not None and bid_id not in selected_bids:
+                    continue
+                if isinstance(bid_val, str):
+                    bids_data[bid_id] = bid_val
+                elif isinstance(bid_val, dict):
+                    bids_data[bid_id] = format_bid_from_properties(bid_id, bid_val)
 
         return bids_data
 
@@ -131,6 +192,27 @@ class TenderOrchestrator:
 
         # 1. Run Criteria Agent (RAG)
         await self.criteria_agent.run(scorecard)
+
+        # Apply custom criteria overrides if provided by user
+        if self.custom_weights:
+            tot = sum(self.custom_weights.values())
+            normalized_wts = {k: float(v) for k, v in self.custom_weights.items()}
+            if abs(tot - 100.0) > 1e-4 and tot > 0:
+                normalized_wts = {k: round((v / tot) * 100.0, 2) for k, v in normalized_wts.items()}
+            scorecard.criteria["weights"] = normalized_wts
+            await scorecard.record_event(
+                "CriteriaAgent",
+                "custom_weights_applied",
+                f"Custom criteria weights applied: {normalized_wts}",
+            )
+
+        if self.mandatory_documents:
+            scorecard.criteria["mandatory_documents"] = list(self.mandatory_documents)
+            await scorecard.record_event(
+                "ComplianceAgent",
+                "custom_mandatory_docs_applied",
+                f"Custom mandatory compliance documents: {self.mandatory_documents}",
+            )
 
         # Load bids to evaluate
         bids_raw = self.load_bids(selected_bids=selected_bids)
@@ -168,7 +250,11 @@ class TenderOrchestrator:
         await self.award_manager.aggregate_and_rank(scorecard=scorecard)
 
         # 4. Tie-Break Agent check and resolution
-        await self.tiebreak_agent.evaluate_and_resolve(scorecard=scorecard, margin=self.tie_margin)
+        await self.tiebreak_agent.evaluate_and_resolve(
+            scorecard=scorecard,
+            margin=self.tie_margin,
+            secondary_criterion=self.secondary_criterion,
+        )
 
         # 5. Award Manager generates winning recommendation and weighted justification
         await self.award_manager.generate_award_recommendation(scorecard=scorecard)
@@ -178,6 +264,8 @@ class TenderOrchestrator:
         # 6. Write final outputs
         self.generate_report(scorecard, output_path=REPORT_OUTPUT_PATH)
         scorecard.save_json(output_path=SCORECARD_OUTPUT_PATH)
+
+        return scorecard
 
         return scorecard
 
@@ -265,9 +353,23 @@ async def run_tender_evaluation(
     selected_bids: Optional[List[str]] = None,
     print_trace: bool = True,
     use_semantic_kernel: bool = False,
+    custom_weights: Optional[Dict[str, float]] = None,
+    mandatory_documents: Optional[List[str]] = None,
+    tie_margin: Optional[float] = None,
+    secondary_criterion: Optional[str] = None,
+    custom_tender_text: Optional[str] = None,
+    custom_bids: Optional[Dict[str, Any]] = None,
 ) -> Scorecard:
     """Convenience functional runner for external callers, tests, and CLI."""
-    orchestrator = TenderOrchestrator(use_semantic_kernel=use_semantic_kernel)
+    orchestrator = TenderOrchestrator(
+        use_semantic_kernel=use_semantic_kernel,
+        tie_margin=tie_margin if tie_margin is not None else TIE_MARGIN,
+        custom_weights=custom_weights,
+        mandatory_documents=mandatory_documents,
+        secondary_criterion=secondary_criterion or "delivery_days",
+        custom_tender_text=custom_tender_text,
+        custom_bids=custom_bids,
+    )
     scorecard = await orchestrator.run(selected_bids=selected_bids)
 
     if print_trace:
